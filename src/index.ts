@@ -1,6 +1,6 @@
 /**
  * Notation .bjj : lire (texte → graphe), écrire (graphe → texte), colorer (jetons).
- * Spécification : SPEC.md. Sans dépendance.
+ * Spécification : SPEC.md du repo bjj-flow-notation. Sans dépendance.
  */
 export { humanize, parseNotation } from "./graph.ts";
 export { tokenize, type Token, type TokenType } from "./lexer.ts";

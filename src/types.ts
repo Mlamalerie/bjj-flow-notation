@@ -1,5 +1,5 @@
 /**
- * Notation .bjj : types publics. Aucune dépendance. Spécification : SPEC.md.
+ * Notation .bjj : types publics. Aucune dépendance. Spécification : SPEC.md du repo bjj-flow-notation.
  */
 
 export type Category = "position" | "submission" | "pass" | "defense" | "takedown";
