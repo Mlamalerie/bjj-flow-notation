@@ -199,8 +199,8 @@ export function parseAst(text: string): PlanAst {
       ) {
         fail("side.invalid", sideToken);
       }
-      side = (sideToken as Token).value as Side;
-      last = sideToken as Token;
+      side = sideToken.value;
+      last = sideToken;
     }
     return { ident, side, span: { from: (head as Token).start, to: last.end } };
   }
