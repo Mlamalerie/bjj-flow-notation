@@ -1,0 +1,42 @@
+name: Vocabulary
+description: Propose a position or a technique for the base vocabulary
+labels: [vocabulary]
+body:
+  - type: input
+    id: id
+    attributes:
+      label: Identifier
+      description: Lowercase English words joined by underscores.
+      placeholder: single_leg_x
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options: [position, submission, pass, defense, takedown]
+    validations:
+      required: true
+  - type: dropdown
+    id: side
+    attributes:
+      label: Side (positions only)
+      options: [none, top, bottom]
+  - type: input
+    id: en
+    attributes:
+      label: Name in English
+    validations:
+      required: true
+  - type: input
+    id: fr
+    attributes:
+      label: Name in French (optional)
+  - type: input
+    id: pt
+    attributes:
+      label: Name in Portuguese (optional)
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it belongs in the base vocabulary

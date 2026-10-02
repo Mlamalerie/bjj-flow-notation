@@ -1,0 +1,23 @@
+name: Specification change
+description: Propose a change to the .bjj notation
+labels: [spec]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What cannot be written today, or what is confusing?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: The proposal
+      description: Show a .bjj example before and after.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
