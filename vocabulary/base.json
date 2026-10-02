@@ -1,486 +1,850 @@
 [
   {
     "id": "standing",
-    "name": "Debout",
-    "category": "position"
+    "category": "position",
+    "names": {
+      "en": "Standing",
+      "fr": "Debout",
+      "pt": "Em pé"
+    }
   },
   {
     "id": "clinch",
-    "name": "Clinch",
-    "category": "position"
+    "category": "position",
+    "names": {
+      "en": "Clinch",
+      "fr": "Clinch",
+      "pt": "Clinch"
+    }
   },
   {
     "id": "closed_guard",
-    "name": "Garde fermée",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Closed guard",
+      "fr": "Garde fermée",
+      "pt": "Guarda fechada"
+    }
   },
   {
     "id": "open_guard",
-    "name": "Garde ouverte",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Open guard",
+      "fr": "Garde ouverte",
+      "pt": "Guarda aberta"
+    }
   },
   {
     "id": "half_guard",
-    "name": "Demi-garde",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Half guard",
+      "fr": "Demi-garde",
+      "pt": "Meia-guarda"
+    }
   },
   {
     "id": "deep_half",
-    "name": "Deep half",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Deep half guard",
+      "fr": "Deep half",
+      "pt": "Meia-guarda profunda"
+    }
   },
   {
     "id": "knee_shield",
-    "name": "Knee shield",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Knee shield",
+      "fr": "Knee shield",
+      "pt": "Knee shield"
+    }
   },
   {
     "id": "butterfly",
-    "name": "Garde papillon",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Butterfly guard",
+      "fr": "Garde papillon",
+      "pt": "Guarda borboleta"
+    }
   },
   {
     "id": "de_la_riva",
-    "name": "De La Riva",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "De La Riva guard",
+      "fr": "De La Riva",
+      "pt": "Guarda De La Riva"
+    }
   },
   {
     "id": "reverse_de_la_riva",
-    "name": "Reverse De La Riva",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Reverse De La Riva",
+      "fr": "Reverse De La Riva",
+      "pt": "De La Riva invertida"
+    }
   },
   {
     "id": "x_guard",
-    "name": "X-guard",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "X-guard",
+      "fr": "X-guard",
+      "pt": "Guarda X"
+    }
   },
   {
     "id": "single_leg_x",
-    "name": "Single leg X",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Single leg X",
+      "fr": "Single leg X",
+      "pt": "Single leg X"
+    }
   },
   {
     "id": "spider",
-    "name": "Garde araignée",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Spider guard",
+      "fr": "Garde araignée",
+      "pt": "Guarda aranha"
+    }
   },
   {
     "id": "lasso",
-    "name": "Lasso",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Lasso guard",
+      "fr": "Lasso",
+      "pt": "Guarda laço"
+    }
   },
   {
     "id": "fifty_fifty",
-    "name": "50/50",
-    "category": "position"
+    "category": "position",
+    "names": {
+      "en": "50/50",
+      "fr": "50/50",
+      "pt": "50/50"
+    }
   },
   {
     "id": "top_position",
-    "name": "Top position",
     "category": "position",
-    "side": "top"
+    "side": "top",
+    "names": {
+      "en": "Top position",
+      "fr": "Top position",
+      "pt": "Posição por cima"
+    }
   },
   {
     "id": "in_guard",
-    "name": "Dans sa garde",
     "category": "position",
     "side": "top",
+    "names": {
+      "en": "In their guard",
+      "fr": "Dans sa garde",
+      "pt": "Na guarda dele"
+    },
     "synonyms": [
       "his_guard"
     ]
   },
   {
     "id": "side_control",
-    "name": "Side control",
     "category": "position",
-    "side": "top"
+    "side": "top",
+    "names": {
+      "en": "Side control",
+      "fr": "Side control",
+      "pt": "Cem quilos"
+    }
   },
   {
     "id": "mount",
-    "name": "Mount",
     "category": "position",
-    "side": "top"
+    "side": "top",
+    "names": {
+      "en": "Mount",
+      "fr": "Mount",
+      "pt": "Montada"
+    }
   },
   {
     "id": "knee_on_belly",
-    "name": "Knee on belly",
     "category": "position",
-    "side": "top"
+    "side": "top",
+    "names": {
+      "en": "Knee on belly",
+      "fr": "Knee on belly",
+      "pt": "Joelho na barriga"
+    }
   },
   {
     "id": "north_south",
-    "name": "North-south",
     "category": "position",
-    "side": "top"
+    "side": "top",
+    "names": {
+      "en": "North-south",
+      "fr": "North-south",
+      "pt": "Norte-sul"
+    }
   },
   {
     "id": "back",
-    "name": "Prise de dos",
     "category": "position",
     "side": "top",
+    "names": {
+      "en": "Back control",
+      "fr": "Prise de dos",
+      "pt": "Pegada nas costas"
+    },
     "synonyms": [
       "back_control"
     ]
   },
   {
     "id": "turtle",
-    "name": "Tortue",
-    "category": "position"
+    "category": "position",
+    "names": {
+      "en": "Turtle",
+      "fr": "Tortue",
+      "pt": "Tartaruga"
+    }
   },
   {
     "id": "dogfight",
-    "name": "Dogfight",
-    "category": "position"
+    "category": "position",
+    "names": {
+      "en": "Dogfight",
+      "fr": "Dogfight",
+      "pt": "Dogfight"
+    }
   },
   {
     "id": "front_headlock",
-    "name": "Front headlock",
     "category": "position",
-    "side": "top"
+    "side": "top",
+    "names": {
+      "en": "Front headlock",
+      "fr": "Front headlock",
+      "pt": "Gravata pela frente"
+    }
   },
   {
     "id": "crucifix",
-    "name": "Crucifix",
     "category": "position",
-    "side": "top"
+    "side": "top",
+    "names": {
+      "en": "Crucifix",
+      "fr": "Crucifix",
+      "pt": "Crucifixo"
+    }
   },
   {
     "id": "bottom_side",
-    "name": "Sous le side control",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Bottom side control",
+      "fr": "Sous le side control",
+      "pt": "Por baixo do cem quilos"
+    }
   },
   {
     "id": "bottom_mount",
-    "name": "Sous la montée",
     "category": "position",
-    "side": "bottom"
+    "side": "bottom",
+    "names": {
+      "en": "Bottom mount",
+      "fr": "Sous la montée",
+      "pt": "Por baixo da montada"
+    }
   },
   {
     "id": "knee_slice",
-    "name": "Knee slice",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Knee slice",
+      "fr": "Knee slice",
+      "pt": "Passagem joelho cortando"
+    }
   },
   {
     "id": "torreando",
-    "name": "Torreando",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Torreando",
+      "fr": "Torreando",
+      "pt": "Toureando"
+    }
   },
   {
     "id": "leg_drag",
-    "name": "Leg drag",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Leg drag",
+      "fr": "Leg drag",
+      "pt": "Leg drag"
+    }
   },
   {
     "id": "over_under",
-    "name": "Over-under",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Over-under",
+      "fr": "Over-under",
+      "pt": "Over-under"
+    }
   },
   {
     "id": "double_under",
-    "name": "Double under",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Double under",
+      "fr": "Double under",
+      "pt": "Double under"
+    }
   },
   {
     "id": "stack_pass",
-    "name": "Stack pass",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Stack pass",
+      "fr": "Stack pass",
+      "pt": "Passagem empilhando"
+    }
   },
   {
     "id": "long_step",
-    "name": "Long step",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Long step",
+      "fr": "Long step",
+      "pt": "Long step"
+    }
   },
   {
     "id": "x_pass",
-    "name": "X-pass",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "X-pass",
+      "fr": "X-pass",
+      "pt": "X-pass"
+    }
   },
   {
     "id": "body_lock_pass",
-    "name": "Body lock pass",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Body lock pass",
+      "fr": "Body lock pass",
+      "pt": "Passagem com body lock"
+    }
   },
   {
     "id": "smash_pass",
-    "name": "Smash pass",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Smash pass",
+      "fr": "Smash pass",
+      "pt": "Smash pass"
+    }
   },
   {
     "id": "leg_weave",
-    "name": "Leg weave",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Leg weave",
+      "fr": "Leg weave",
+      "pt": "Leg weave"
+    }
   },
   {
     "id": "backstep",
-    "name": "Backstep",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Backstep",
+      "fr": "Backstep",
+      "pt": "Backstep"
+    }
   },
   {
     "id": "scissor_sweep",
-    "name": "Scissor sweep",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Scissor sweep",
+      "fr": "Scissor sweep",
+      "pt": "Raspagem de tesoura"
+    }
   },
   {
     "id": "hip_bump",
-    "name": "Hip bump",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Hip bump sweep",
+      "fr": "Hip bump",
+      "pt": "Raspagem de quadril"
+    }
   },
   {
     "id": "flower_sweep",
-    "name": "Flower sweep",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Flower sweep",
+      "fr": "Flower sweep",
+      "pt": "Raspagem pêndulo"
+    }
   },
   {
     "id": "butterfly_sweep",
-    "name": "Butterfly sweep",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Butterfly sweep",
+      "fr": "Butterfly sweep",
+      "pt": "Raspagem de borboleta"
+    }
   },
   {
     "id": "old_school",
-    "name": "Old school sweep",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Old school sweep",
+      "fr": "Old school sweep",
+      "pt": "Old school"
+    }
   },
   {
     "id": "waiter_sweep",
-    "name": "Waiter sweep",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Waiter sweep",
+      "fr": "Waiter sweep",
+      "pt": "Raspagem do garçom"
+    }
   },
   {
     "id": "tripod_sweep",
-    "name": "Tripod sweep",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Tripod sweep",
+      "fr": "Tripod sweep",
+      "pt": "Raspagem tripé"
+    }
   },
   {
     "id": "berimbolo",
-    "name": "Berimbolo",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Berimbolo",
+      "fr": "Berimbolo",
+      "pt": "Berimbolo"
+    }
   },
   {
     "id": "back_take",
-    "name": "Back take",
-    "category": "pass"
+    "category": "pass",
+    "names": {
+      "en": "Back take",
+      "fr": "Back take",
+      "pt": "Pegar as costas"
+    }
   },
   {
     "id": "americana",
-    "name": "Americana",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Americana",
+      "fr": "Americana",
+      "pt": "Americana"
+    }
   },
   {
     "id": "kimura",
-    "name": "Kimura",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Kimura",
+      "fr": "Kimura",
+      "pt": "Kimura"
+    }
   },
   {
     "id": "armbar",
-    "name": "Armbar",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Armbar",
+      "fr": "Armbar",
+      "pt": "Chave de braço"
+    }
   },
   {
     "id": "triangle",
-    "name": "Triangle",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Triangle choke",
+      "fr": "Triangle",
+      "pt": "Triângulo"
+    }
   },
   {
     "id": "arm_triangle",
-    "name": "Arm triangle",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Arm triangle",
+      "fr": "Arm triangle",
+      "pt": "Katagatame"
+    }
   },
   {
     "id": "baseball_choke",
-    "name": "Baseball choke",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Baseball bat choke",
+      "fr": "Baseball choke",
+      "pt": "Estrangulamento taco de beisebol"
+    }
   },
   {
     "id": "cross_collar",
-    "name": "Cross collar",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Cross collar choke",
+      "fr": "Cross collar",
+      "pt": "Estrangulamento cruzado"
+    }
   },
   {
     "id": "rear_naked_choke",
-    "name": "Rear naked choke",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Rear naked choke",
+      "fr": "Rear naked choke",
+      "pt": "Mata-leão"
+    }
   },
   {
     "id": "bow_and_arrow",
-    "name": "Bow and arrow",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Bow and arrow choke",
+      "fr": "Bow and arrow",
+      "pt": "Arco e flecha"
+    }
   },
   {
     "id": "guillotine",
-    "name": "Guillotine",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Guillotine",
+      "fr": "Guillotine",
+      "pt": "Guilhotina"
+    }
   },
   {
     "id": "darce",
-    "name": "Darce",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "D'Arce choke",
+      "fr": "Darce",
+      "pt": "D'Arce"
+    }
   },
   {
     "id": "anaconda",
-    "name": "Anaconda",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Anaconda choke",
+      "fr": "Anaconda",
+      "pt": "Anaconda"
+    }
   },
   {
     "id": "ezekiel",
-    "name": "Ezekiel",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Ezekiel choke",
+      "fr": "Ezekiel",
+      "pt": "Ezequiel"
+    }
   },
   {
     "id": "omoplata",
-    "name": "Omoplata",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Omoplata",
+      "fr": "Omoplata",
+      "pt": "Omoplata"
+    }
   },
   {
     "id": "ankle_lock",
-    "name": "Straight ankle lock",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Straight ankle lock",
+      "fr": "Straight ankle lock",
+      "pt": "Chave de pé reta"
+    }
   },
   {
     "id": "heel_hook",
-    "name": "Heel hook",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Heel hook",
+      "fr": "Heel hook",
+      "pt": "Heel hook"
+    }
   },
   {
     "id": "kneebar",
-    "name": "Kneebar",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Kneebar",
+      "fr": "Kneebar",
+      "pt": "Chave de joelho"
+    }
   },
   {
     "id": "loop_choke",
-    "name": "Loop choke",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Loop choke",
+      "fr": "Loop choke",
+      "pt": "Loop choke"
+    }
   },
   {
     "id": "clock_choke",
-    "name": "Clock choke",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Clock choke",
+      "fr": "Clock choke",
+      "pt": "Estrangulamento relógio"
+    }
   },
   {
     "id": "north_south_choke",
-    "name": "North-south choke",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "North-south choke",
+      "fr": "North-south choke",
+      "pt": "Estrangulamento norte-sul"
+    }
   },
   {
     "id": "paper_cutter",
-    "name": "Paper cutter",
-    "category": "submission"
+    "category": "submission",
+    "names": {
+      "en": "Paper cutter choke",
+      "fr": "Paper cutter",
+      "pt": "Paper cutter"
+    }
   },
   {
     "id": "mount_escape",
-    "name": "Mount escape",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Mount escape",
+      "fr": "Mount escape",
+      "pt": "Saída da montada"
+    }
   },
   {
     "id": "elbow_knee",
-    "name": "Elbow-knee escape",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Elbow-knee escape",
+      "fr": "Elbow-knee escape",
+      "pt": "Saída cotovelo-joelho"
+    }
   },
   {
     "id": "side_escape",
-    "name": "Side control escape",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Side control escape",
+      "fr": "Side control escape",
+      "pt": "Saída do cem quilos"
+    }
   },
   {
     "id": "guard_retention",
-    "name": "Guard retention",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Guard retention",
+      "fr": "Guard retention",
+      "pt": "Reposição de guarda"
+    }
   },
   {
     "id": "back_escape",
-    "name": "Back escape",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Back escape",
+      "fr": "Back escape",
+      "pt": "Saída das costas"
+    }
   },
   {
     "id": "shrimp",
-    "name": "Shrimp",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Shrimp",
+      "fr": "Shrimp",
+      "pt": "Fuga de quadril"
+    }
   },
   {
     "id": "technical_standup",
-    "name": "Technical standup",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Technical stand-up",
+      "fr": "Technical standup",
+      "pt": "Levantada técnica"
+    }
   },
   {
     "id": "granby",
-    "name": "Granby roll",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Granby roll",
+      "fr": "Granby roll",
+      "pt": "Rolamento granby"
+    }
   },
   {
     "id": "sprawl",
-    "name": "Sprawl",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Sprawl",
+      "fr": "Sprawl",
+      "pt": "Sprawl"
+    }
   },
   {
     "id": "whizzer",
-    "name": "Whizzer",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Whizzer",
+      "fr": "Whizzer",
+      "pt": "Whizzer"
+    }
   },
   {
     "id": "frames",
-    "name": "Frames",
-    "category": "defense"
+    "category": "defense",
+    "names": {
+      "en": "Frames",
+      "fr": "Frames",
+      "pt": "Frames"
+    }
   },
   {
     "id": "body_lock",
-    "name": "Body lock",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Body lock",
+      "fr": "Body lock",
+      "pt": "Body lock"
+    }
   },
   {
     "id": "single_leg",
-    "name": "Single leg",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Single leg",
+      "fr": "Single leg",
+      "pt": "Single leg"
+    }
   },
   {
     "id": "double_leg",
-    "name": "Double leg",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Double leg",
+      "fr": "Double leg",
+      "pt": "Baiana"
+    }
   },
   {
     "id": "ankle_pick",
-    "name": "Ankle pick",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Ankle pick",
+      "fr": "Ankle pick",
+      "pt": "Pegada no tornozelo"
+    }
   },
   {
     "id": "osoto_gari",
-    "name": "Osoto gari",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Osoto gari",
+      "fr": "Osoto gari",
+      "pt": "O-soto-gari"
+    }
   },
   {
     "id": "ouchi_gari",
-    "name": "Ouchi gari",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Ouchi gari",
+      "fr": "Ouchi gari",
+      "pt": "O-uchi-gari"
+    }
   },
   {
     "id": "seoi_nage",
-    "name": "Seoi nage",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Seoi nage",
+      "fr": "Seoi nage",
+      "pt": "Seoi-nage"
+    }
   },
   {
     "id": "snap_down",
-    "name": "Snap down",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Snap down",
+      "fr": "Snap down",
+      "pt": "Snap down"
+    }
   },
   {
     "id": "arm_drag",
-    "name": "Arm drag",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Arm drag",
+      "fr": "Arm drag",
+      "pt": "Arm drag"
+    }
   },
   {
     "id": "guard_pull",
-    "name": "Tirer la garde",
-    "category": "takedown"
+    "category": "takedown",
+    "names": {
+      "en": "Guard pull",
+      "fr": "Tirer la garde",
+      "pt": "Puxar para a guarda"
+    }
   }
 ]

@@ -1,13 +1,15 @@
 /**
- * Notation .bjj : types publics. Aucune dépendance. Spécification : SPEC.md du repo bjj-flow-notation.
+ * Public types of the .bjj notation. No dependency. Specification: spec/bjj-notation.md in the
+ * bjj-notation repository.
  */
+import type { DiagnosticCode, Locale, Params } from "./messages.ts";
 
 export type Category = "position" | "submission" | "pass" | "defense" | "takedown";
 export type Side = "top" | "bottom";
 export type Mastery = "discover" | "gap" | "wip" | "solid";
 export type EdgeKind = "success" | "reaction" | "counter";
 
-/** Position dans le texte : ligne et colonne à partir de 1, offset à partir de 0. */
+/** A place in the text: line and column start at 1, offset at 0 (UTF-16 code units). */
 export interface Position {
   line: number;
   col: number;
@@ -19,13 +21,16 @@ export interface Span {
   to: Position;
 }
 
+/** An error or a warning: a stable code, its parameters, and the message in the requested language. */
 export interface Diagnostic {
   severity: "error" | "warning";
+  code: DiagnosticCode;
+  params: Params;
   message: string;
   span: Span;
 }
 
-/** Une entrée du vocabulaire commun : `side_control` → « Side control », position, dessus. */
+/** A vocabulary entry: `side_control` → "Side control", a position, on top. */
 export interface VocabularyEntry {
   id: string;
   name: string;
@@ -34,13 +39,13 @@ export interface VocabularyEntry {
 }
 
 export interface Vocabulary {
-  /** Entrée d'un identifiant tel qu'écrit dans le texte (synonymes compris). */
+  /** Entry of an identifier as written in the text (synonyms included). */
   get(id: string): VocabularyEntry | undefined;
-  /** Identifiant d'une technique d'après son nom et sa catégorie, pour écrire le texte. */
+  /** Identifier of a technique from its name and category, to write text. */
   idOf(name: string, category: Category): string | undefined;
 }
 
-/** Un nœud du graphe. `key` : l'alias déclaré, ou l'identifiant suivi du côté (`mount.top`). */
+/** A node of the graph. `key`: the declared alias, or the identifier followed by its side (`mount.top`). */
 export interface NotationNode {
   key: string;
   name: string;
@@ -66,10 +71,15 @@ export interface NotationGraph {
   edges: NotationEdge[];
 }
 
-/** Lignes (de 1 à n, incluses) où un nœud est déclaré ou ouvre un bloc `from`. */
+/** Lines (1 to n, inclusive). */
 export interface LineRange {
   start: number;
   end: number;
+}
+
+export interface ParseOptions {
+  /** Language of diagnostic messages. Codes do not change. Default: English. */
+  locale?: Locale;
 }
 
 export type ParseResult =
@@ -78,13 +88,13 @@ export type ParseResult =
       graph: NotationGraph;
       warnings: Diagnostic[];
       /**
-       * Lignes de chaque nœud, pour allumer celles du nœud sélectionné : sa déclaration et son bloc
-       * `from`, sinon les flèches qui mènent à lui.
+       * Lines of each node, to highlight the selected one: its declaration and its `from` block,
+       * or else the arrows that lead to it.
        */
       lines: Record<string, LineRange[]>;
-      /** Lignes des flèches `-> x`, par cible : un clic sur la ligne sélectionne la technique. */
+      /** Lines of each `-> x` arrow, by target. */
       mentions: Record<string, LineRange[]>;
-      /** Positions sans sortie (« aucune sortie définie · trou ») et la ligne où le signaler. */
+      /** Nodes with no way out (gaps), and the line where to show them. Submissions excluded. */
       gaps: { key: string; line: number }[];
     }
   | { ok: false; error: Diagnostic };

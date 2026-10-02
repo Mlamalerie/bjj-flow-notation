@@ -1,3 +1,4 @@
+import type { DiagnosticCode } from "./messages.ts";
 import type { Position } from "./types.ts";
 
 export type TokenType =
@@ -13,12 +14,12 @@ export type TokenType =
 
 export interface Token {
   type: TokenType;
-  /** Valeur utile : texte d'une chaîne sans guillemets, nom d'une propriété sans « : ». */
+  /** Useful value: a string without its quotes, a property name without its colon. */
   value: string;
   start: Position;
   end: Position;
-  /** Pour un jeton « invalid » : pourquoi. */
-  problem?: string;
+  /** For an "invalid" token: why. */
+  problem?: Extract<DiagnosticCode, `lex.${string}`>;
 }
 
 export const KEYWORDS = new Set([
@@ -38,9 +39,9 @@ const IDENT_START = /[\p{L}\p{N}_]/u;
 const IDENT_PART = /[\p{L}\p{N}_]/u;
 
 /**
- * Découpe le texte en jetons. Ne lève jamais d'erreur : un caractère inconnu ou une chaîne non
- * fermée donnent un jeton « invalid », que le parseur transforme en message. Sert aussi à la
- * coloration de l'éditeur, même quand le texte est faux.
+ * Splits the text into tokens. Never throws: an unknown character or an unclosed string become an
+ * "invalid" token, which the parser turns into a diagnostic. Also used for syntax colouring, even
+ * when the text is wrong.
  */
 export function tokenize(text: string): Token[] {
   const tokens: Token[] = [];
@@ -99,7 +100,7 @@ export function tokenize(text: string): Token[] {
       tokens.push(
         closed
           ? { type: "string", value, start, end: here() }
-          : { type: "invalid", value, start, end: here(), problem: "Guillemet fermant manquant." },
+          : { type: "invalid", value, start, end: here(), problem: "lex.unterminated_string" },
       );
       continue;
     }
@@ -136,13 +137,7 @@ export function tokenize(text: string): Token[] {
     }
 
     advance();
-    tokens.push({
-      type: "invalid",
-      value: ch,
-      start,
-      end: here(),
-      problem: `Caractère inattendu « ${ch} ».`,
-    });
+    tokens.push({ type: "invalid", value: ch, start, end: here(), problem: "lex.unexpected_char" });
   }
   return tokens;
 }

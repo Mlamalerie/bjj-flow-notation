@@ -7,7 +7,7 @@ import {
   type Vocabulary,
 } from "./index.ts";
 
-/** Petit vocabulaire de test : le format ne dépend pas du catalogue de l'app. */
+/** A small test vocabulary: the format does not depend on any app's catalogue. */
 const entries = [
   { id: "mount", name: "Mount", category: "position", side: "top" },
   { id: "side_control", name: "Side control", category: "position", side: "top" },
@@ -27,7 +27,8 @@ const vocabulary: Vocabulary = {
   idOf: (name, category) => entries.find((e) => e.name === name && e.category === category)?.id,
 };
 
-const parse = (text: string) => parseNotation(text, vocabulary);
+/** French messages: the error cases below check the wording the Plan B editor shows. */
+const parse = (text: string) => parseNotation(text, vocabulary, { locale: "fr" });
 const ok = (result: ParseResult) => {
   if (!result.ok)
     throw new Error(
@@ -36,7 +37,7 @@ const ok = (result: ParseResult) => {
   return result;
 };
 
-/** Exemple de la page notation (10.03), mot pour mot. */
+/** The example of the notation page (Plan B mockup 10.03), word for word. */
 const NOTATION_PAGE = `plan "A-game KL" {
 
   from mount:
@@ -54,7 +55,7 @@ const NOTATION_PAGE = `plan "A-game KL" {
     tag: GAP
 }`;
 
-/** Exemple de 07.01, avec la correction validée (takedown body_lock au lieu de standing.clinch). */
+/** The example of mockup 07.01, with the validated fix (takedown body_lock, not standing.clinch). */
 const TEXT_VIEW = `plan "A-game KL" {
 
   takedown body_lock { tag: a_game, GAP  detail: "départ debout" }
@@ -77,8 +78,8 @@ const TEXT_VIEW = `plan "A-game KL" {
   from mount.bottom:
 }`;
 
-describe("lecture des exemples des maquettes", () => {
-  it("10.03 : réactions, contre, FINISH, trou", () => {
+describe("reading the reference examples", () => {
+  it("10.03: reactions, counter, FINISH, gap", () => {
     const { graph, gaps, warnings } = ok(parse(NOTATION_PAGE));
     expect(warnings).toEqual([]);
     expect(graph.name).toBe("A-game KL");
@@ -100,7 +101,7 @@ describe("lecture des exemples des maquettes", () => {
     expect(gaps.find((g) => g.key === "dogfight")?.line).toBe(13);
   });
 
-  it("07.01 : alias, côtés, leads_to, A-game, maîtrise, détail", () => {
+  it("07.01: aliases, sides, leads_to, A-game, mastery, detail", () => {
     const { graph, lines, gaps } = ok(parse(TEXT_VIEW));
     const node = (key: string) => graph.nodes.find((n) => n.key === key);
     expect(node("body_lock")).toMatchObject({
@@ -111,7 +112,7 @@ describe("lecture des exemples des maquettes", () => {
       detail: "départ debout",
     });
     expect(node("pulls_guard")).toMatchObject({ name: "Il tire garde", side: "bottom" });
-    // side_control et side_control.top désignent le même nœud (dessus par défaut).
+    // side_control and side_control.top are the same node (on top by default).
     expect(graph.nodes.filter((n) => n.name === "Side control")).toHaveLength(1);
     expect(node("mount.top")).toBeDefined();
     expect(node("mount.bottom")).toBeDefined();
@@ -126,7 +127,7 @@ describe("lecture des exemples des maquettes", () => {
   });
 });
 
-describe("erreurs : toujours une ligne, une colonne et une phrase", () => {
+describe("errors: always a line, a column and a sentence", () => {
   const cases: [string, RegExp][] = [
     ["", /commence par plan/],
     ["plan A {", /entre guillemets/],
@@ -167,7 +168,7 @@ describe("erreurs : toujours une ligne, une colonne et une phrase", () => {
     expect(result.error.span.from.col).toBeGreaterThanOrEqual(1);
   });
 
-  it("une valeur oubliée en fin de ligne : l'erreur pointe le mot resté seul", () => {
+  it("a value missing at the end of a line: the error points at the word left alone", () => {
     const result = parse('plan "A" {\n  from mount:\n    -> armbar   leads_to:\n    -> kimura\n}');
     expect(result.ok).toBe(false);
     if (result.ok) return;
@@ -175,7 +176,7 @@ describe("erreurs : toujours une ligne, une colonne et une phrase", () => {
     expect(result.error.span.from).toMatchObject({ line: 3, col: 17 });
   });
 
-  it("pointe la bonne ligne et la bonne colonne", () => {
+  it("points at the right line and column", () => {
     const result = parse('plan "A" {\n  from mount:\n    -> armbar   leads_to: 12\n}');
     expect(result.ok).toBe(false);
     if (result.ok) return;
@@ -183,8 +184,8 @@ describe("erreurs : toujours une ligne, une colonne et une phrase", () => {
   });
 });
 
-describe("avertissements", () => {
-  it("technique hors vocabulaire : une position, signalée une fois", () => {
+describe("warnings", () => {
+  it("unknown technique: a position, reported once", () => {
     const { graph, warnings } = ok(
       parse('plan "A" { from mount: -> choke_du_club  -> choke_du_club }'),
     );
@@ -198,8 +199,8 @@ describe("avertissements", () => {
   });
 });
 
-describe("aller-retour graphe → texte → graphe", () => {
-  /** Relit le texte écrit et compare nœud par nœud, flèche par flèche, via les clés. */
+describe("round trip graph → text → graph", () => {
+  /** Reads the written text back and compares node by node, arrow by arrow, through the keys. */
   function roundTrip(text: string) {
     const first = ok(parse(text)).graph;
     const written = serializeNotation(
@@ -219,7 +220,7 @@ describe("aller-retour graphe → texte → graphe", () => {
       expect({ ...back, key: node.key }).toEqual(node);
     }
     expect(second.nodes).toHaveLength(first.nodes.length);
-    // Un graphe : l'ordre des flèches ne compte pas.
+    // A graph: the order of the arrows does not matter.
     const sorted = <T extends { source: string; target: string }>(edges: T[]) =>
       [...edges].sort((a, b) => `${a.source}→${a.target}`.localeCompare(`${b.source}→${b.target}`));
     expect(sorted(second.edges)).toEqual(
@@ -228,16 +229,16 @@ describe("aller-retour graphe → texte → graphe", () => {
     return written.text;
   }
 
-  it("10.03 et 07.01", () => {
+  it("10.03 and 07.01", () => {
     roundTrip(NOTATION_PAGE);
     roundTrip(TEXT_VIEW);
   });
 
-  it("cas limites : doublons, perso, guillemets, réaction sans condition, nœud isolé", () => {
+  it("edge cases: duplicates, custom, quotes, empty condition, isolated node", () => {
     const text = roundTrip(`plan "Cas \\"limites\\"" {
   submission americana_2 = americana { tag: SOLID }
   position mount_2 = mount.top { detail: "côté gauche" }
-  submission mount_perso { name: "Mount" }
+  submission mount_custom { name: "Mount" }
   submission americana
   position kesa_gatame { tag: WIP, gi }
   submission pass_1 { name: "Pass" }
@@ -246,18 +247,18 @@ describe("aller-retour graphe → texte → graphe", () => {
     -> kesa_gatame   tag: COUNTER
     -> mount.bottom
   from kesa_gatame:
-    -> mount_perso   leads_to: FINISH
+    -> mount_custom   leads_to: FINISH
 }`);
     expect(text).toContain('plan "Cas \\"limites\\"" {');
   });
 
-  it("plan vide", () => {
+  it("empty plan", () => {
     expect(roundTrip('plan "Vide" {\n}')).toBe('plan "Vide" {\n}\n');
   });
 });
 
-describe("jetons pour la coloration", () => {
-  it("garde les commentaires et signale une chaîne non fermée sans planter", () => {
+describe("tokens for syntax colouring", () => {
+  it("keeps comments and reports an unclosed string without crashing", () => {
     const tokens = tokenize('plan "A" { # note\n from mount: -> x when: "oups\n}');
     expect(tokens.map((t) => t.type)).toEqual([
       "keyword",

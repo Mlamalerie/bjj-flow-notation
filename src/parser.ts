@@ -1,7 +1,8 @@
 import { tokenize, type Token } from "./lexer.ts";
-import type { Category, Diagnostic, Position, Side, Span } from "./types.ts";
+import type { DiagnosticCode, Params } from "./messages.ts";
+import type { Category, Position, Side, Span } from "./types.ts";
 
-/* ---------- Arbre de syntaxe ---------- */
+/* ---------- Syntax tree ---------- */
 
 export interface Ref {
   ident: string;
@@ -47,12 +48,15 @@ export interface PlanAst {
   items: (Declaration | FromBlock)[];
 }
 
+/** A mistake in the text: a code, its parameters and where it is. Turned into a Diagnostic. */
 export class NotationError extends Error {
-  readonly diagnostic: Diagnostic;
-  constructor(message: string, span: Span) {
-    super(message);
+  constructor(
+    readonly code: DiagnosticCode,
+    readonly params: Params,
+    readonly span: Span,
+  ) {
+    super(code);
     this.name = "NotationError";
-    this.diagnostic = { severity: "error", message, span };
   }
 }
 
@@ -66,7 +70,7 @@ const shown = (token: Token): string =>
       ? `${token.value}:`
       : token.value;
 
-/** Version sans accents ni majuscules d'un identifiant mal écrit, pour la suggestion. */
+/** A badly written identifier without accents or capitals, to suggest the right spelling. */
 function suggest(word: string): string {
   return word
     .normalize("NFD")
@@ -76,13 +80,11 @@ function suggest(word: string): string {
 }
 
 /**
- * Lit un texte .bjj et renvoie son arbre de syntaxe. À la première faute, lève une NotationError
- * avec ligne, colonne et une phrase en français : jamais d'exception brute.
+ * Reads a .bjj text into its syntax tree. At the first mistake, throws a NotationError with a code,
+ * a line and a column: never a raw exception.
  */
 export function parseAst(text: string): PlanAst {
   const all = tokenize(text);
-  const invalid = all.find((t) => t.type === "invalid");
-  if (invalid) throw new NotationError(invalid.problem ?? "Texte illisible.", span(invalid));
   const tokens = all.filter((t) => t.type !== "comment");
   let i = 0;
 
@@ -91,92 +93,98 @@ export function parseAst(text: string): PlanAst {
     const pos: Position = last ? last.end : { line: 1, col: 1, offset: 0 };
     return { from: pos, to: pos };
   };
-  const peek = (ahead = 0): Token | undefined => tokens[i + ahead];
-  const next = (): Token | undefined => tokens[i++];
-  const is = (token: Token | undefined, type: Token["type"], value?: string) =>
+  /** An unreadable token is reported when the parser reaches it: mistakes come in text order. */
+  const checked = (token: Token | undefined): Token | undefined => {
+    if (token?.type === "invalid") {
+      throw new NotationError(
+        token.problem ?? "lex.unexpected_char",
+        { char: token.value },
+        span(token),
+      );
+    }
+    return token;
+  };
+  const peek = (ahead = 0): Token | undefined => checked(tokens[i + ahead]);
+  const next = (): Token | undefined => checked(tokens[i++]);
+  const is = (token: Token | undefined, type: Token["type"], value?: string): boolean =>
     token !== undefined && token.type === type && (value === undefined || token.value === value);
-  function fail(message: string, at: Token | undefined): never {
-    throw new NotationError(message, at ? span(at) : endOfText());
+  function fail(code: DiagnosticCode, at: Token | Span | undefined, params: Params = {}): never {
+    const where = at === undefined ? endOfText() : "type" in at ? span(at) : at;
+    throw new NotationError(code, params, where);
   }
 
-  /* plan "Nom" { … } */
+  /* plan "Name" { … } */
   const first = next();
-  if (!is(first, "keyword", "plan")) {
-    fail('Un fichier .bjj commence par plan "Nom du plan" {', first);
-  }
+  if (!is(first, "keyword", "plan")) fail("plan.expected", first);
   const name = next();
-  if (!is(name, "string")) {
-    fail('Le nom du plan s\'écrit entre guillemets : plan "A-game" {', name);
-  }
+  if (!is(name, "string")) fail("plan.name_unquoted", name);
   const open = next();
-  if (!is(open, "punct", "{")) fail("Il manque { après le nom du plan.", open);
+  if (!is(open, "punct", "{")) fail("plan.missing_open", blame(name as Token, open));
 
   const items: (Declaration | FromBlock)[] = [];
   for (;;) {
     const token = peek();
-    if (token === undefined) {
-      fail(`Il manque } pour fermer le plan (ouvert ligne ${open?.start.line ?? 1}).`, undefined);
-    }
+    if (token === undefined) fail("plan.missing_close", undefined, { line: open?.start.line ?? 1 });
     if (is(token, "punct", "}")) {
       i++;
       break;
     }
     if (is(token, "keyword", "from")) items.push(parseFrom());
-    else if (token && token.type === "keyword" && CATEGORIES.includes(token.value as Category)) {
+    else if (token.type === "keyword" && CATEGORIES.includes(token.value as Category)) {
       items.push(parseDeclaration());
     } else {
-      fail(
-        `« ${token ? shown(token) : ""} » inattendu : une ligne commence par from, position, submission, pass, defense, takedown ou }.`,
-        token,
-      );
+      fail("plan.unexpected", token, { token: shown(token) });
     }
   }
   const extra = peek();
-  if (extra) fail("Rien n'est attendu après la fin du plan.", extra);
+  if (extra) fail("plan.trailing", extra);
   return { name: name?.value ?? "", items };
 
-  /* ---------- Règles ---------- */
+  /* ---------- Rules ---------- */
 
   /**
-   * Valeur absente après « when: », « leads_to: », « = »… : si le jeton suivant est d'une autre
-   * ligne ou fait partie de la structure, l'erreur pointe le mot resté seul, pas la ligne d'après.
+   * A value missing after "when:", "leads_to:", "="…: if the next token is on another line or is
+   * part of the structure, the error points at the word left alone, not at the next line.
    */
-  function blame(owner: Token, next: Token | undefined): Token {
+  function blame(owner: Token, following: Token | undefined): Token {
     const structural =
-      next === undefined ||
-      next.type === "property" ||
-      next.type === "arrow" ||
-      (next.type === "punct" && next.value !== ".");
-    return structural || next.start.line !== owner.start.line ? owner : next;
+      following === undefined ||
+      following.type === "property" ||
+      following.type === "arrow" ||
+      (following.type === "punct" && following.value !== ".");
+    return structural || following.start.line !== owner.start.line ? owner : following;
   }
 
-  function identifier(token: Token | undefined, missing: string): string {
-    if (token === undefined || token.type === "punct" || token.type === "string") {
-      fail(missing, token);
+  function identifier(
+    token: Token | undefined,
+    missing: DiagnosticCode,
+    params: Params = {},
+  ): string {
+    if (
+      token === undefined ||
+      token.type === "punct" ||
+      token.type === "string" ||
+      token.type === "arrow"
+    ) {
+      fail(missing, token, params);
     }
-    if (token?.type === "keyword" || token?.type === "property") {
-      fail(`« ${token.value} » est un mot réservé de la notation.`, token);
+    if (token.type === "keyword" || token.type === "property") {
+      fail("ident.reserved_word", token, { word: token.value });
     }
-    if (token?.type === "reserved") {
-      fail(`« ${token.value} » est une étiquette réservée, pas un nom de technique.`, token);
-    }
-    if (token?.type === "arrow") fail(missing, token);
-    const word = token?.value ?? "";
+    if (token.type === "reserved") fail("ident.reserved_tag", token, { word: token.value });
+    const word = token.value;
     if (!IDENT.test(word)) {
       const better = suggest(word);
-      fail(
-        /[^ -~]/.test(word)
-          ? `Les identifiants s'écrivent sans accents : ${better}.`
-          : /[A-Z]/.test(word)
-            ? `Les identifiants s'écrivent en minuscules : ${better}.`
-            : `Un identifiant commence par une lettre : ${better.replace(/^[^a-z]+/, "") || "side_control"}.`,
-        token,
-      );
+      if (/[^ -~]/.test(word)) fail("ident.accents", token, { suggestion: better });
+      if (/[A-Z]/.test(word)) fail("ident.uppercase", token, { suggestion: better });
+      fail("ident.leading", token, {
+        suggestion: better.replace(/^[^a-z]+/, "") || "side_control",
+      });
     }
     return word;
   }
 
-  function parseRef(missing: string, owner?: Token): Ref {
+  function parseRef(missing: DiagnosticCode, owner?: Token): Ref {
     if (owner && blame(owner, peek()) === owner) fail(missing, owner);
     const head = next();
     const ident = identifier(head, missing);
@@ -189,10 +197,10 @@ export function parseAst(text: string): PlanAst {
         !is(sideToken, "ident") ||
         (sideToken?.value !== "top" && sideToken?.value !== "bottom")
       ) {
-        fail("Après le point, le côté : .top (dessus) ou .bottom (dessous).", sideToken);
+        fail("side.invalid", sideToken);
       }
-      side = sideToken?.value;
-      last = sideToken;
+      side = (sideToken as Token).value as Side;
+      last = sideToken as Token;
     }
     return { ident, side, span: { from: (head as Token).start, to: last.end } };
   }
@@ -203,17 +211,11 @@ export function parseAst(text: string): PlanAst {
     for (;;) {
       const token = next();
       if (!token || (token.type !== "ident" && token.type !== "reserved")) {
-        fail(
-          tags.length === 0
-            ? "Après tag:, au moins une étiquette : tag: a_game."
-            : "Après la virgule, une autre étiquette : tag: a_game, GAP.",
-          blame(owner, token),
-        );
+        fail(tags.length === 0 ? "tags.missing" : "tags.missing_after_comma", blame(owner, token));
       }
-      const t = token;
-      if (t.value === "FINISH") fail("FINISH s'écrit après leads_to:, pas dans tag:.", t);
-      if (t.type === "ident" && !IDENT.test(t.value)) identifier(t, "");
-      tags.push({ value: t.value, span: span(t) });
+      if (token.value === "FINISH") fail("tags.finish", token);
+      if (token.type === "ident" && !IDENT.test(token.value)) identifier(token, "tags.missing");
+      tags.push({ value: token.value, span: span(token) });
       if (!is(peek(), "punct", ",")) return tags;
       owner = next() as Token;
     }
@@ -222,22 +224,14 @@ export function parseAst(text: string): PlanAst {
   function parseDeclaration(): Declaration {
     const keyword = next() as Token;
     const category = keyword.value as Category;
-    if (blame(keyword, peek()) === keyword) {
-      fail(`Il manque le nom après « ${category} » : ${category} side_control.`, keyword);
-    }
+    if (blame(keyword, peek()) === keyword) fail("decl.missing_name", keyword, { category });
     const aliasToken = next();
-    const alias = identifier(
-      aliasToken,
-      `Il manque le nom après « ${category} » : ${category} side_control.`,
-    );
+    const alias = identifier(aliasToken, "decl.missing_name", { category });
     let ref: Ref | undefined;
     let end = (aliasToken as Token).end;
     if (is(peek(), "punct", "=")) {
       const equals = next() as Token;
-      ref = parseRef(
-        "Après =, écris un identifiant du vocabulaire, par exemple side_control.",
-        equals,
-      );
+      ref = parseRef("decl.missing_ref", equals);
       end = ref.span.to;
     }
     const declaration: Declaration = {
@@ -253,40 +247,30 @@ export function parseAst(text: string): PlanAst {
       const brace = next() as Token;
       for (;;) {
         const token = next();
-        if (token === undefined) {
-          fail(
-            `Il manque } pour fermer « ${alias} » (ouvert ligne ${brace.start.line}).`,
-            undefined,
-          );
-        }
-        const t = token;
-        if (is(t, "punct", "}")) {
-          declaration.span = { from: keyword.start, to: t.end };
+        if (token === undefined)
+          fail("decl.unclosed", undefined, { alias, line: brace.start.line });
+        if (is(token, "punct", "}")) {
+          declaration.span = { from: keyword.start, to: token.end };
           break;
         }
-        if (t.type !== "property" || t.value === "when" || t.value === "leads_to") {
-          fail(
-            t.type === "property"
-              ? `${t.value}: se place sous une flèche ->, pas dans une déclaration.`
-              : `« ${shown(t)} » : dans { }, on écrit name:, detail: ou tag:.`,
-            t,
-          );
+        if (token.type === "property" && (token.value === "when" || token.value === "leads_to")) {
+          fail("decl.arrow_property", token, { property: token.value });
         }
-        if (t.value === "tag") {
-          declaration.tags.push(...parseTags(t));
+        if (token.type !== "property")
+          fail("decl.unknown_property", token, { token: shown(token) });
+        if (token.value === "tag") {
+          declaration.tags.push(...parseTags(token));
           continue;
         }
         const value = next();
         if (!is(value, "string")) {
-          fail(
-            `Après ${t.value}:, le texte s'écrit entre guillemets : ${t.value}: "…".`,
-            blame(t, value),
-          );
+          fail("decl.value_unquoted", blame(token, value), { property: token.value });
         }
-        if (declaration[t.value as "name" | "detail"] !== undefined) {
-          fail(`« ${alias} » a déjà un ${t.value === "name" ? "nom" : "détail"}.`, t);
+        const key = token.value as "name" | "detail";
+        if (declaration[key] !== undefined) {
+          fail(key === "name" ? "decl.duplicate_name" : "decl.duplicate_detail", token, { alias });
         }
-        declaration[t.value as "name" | "detail"] = value?.value;
+        declaration[key] = (value as Token).value;
       }
     }
     return declaration;
@@ -294,13 +278,14 @@ export function parseAst(text: string): PlanAst {
 
   function parseFrom(): FromBlock {
     const keyword = next() as Token;
-    const source = parseRef("Il manque la position après from : from side_control:", keyword);
+    const source = parseRef("from.missing_ref", keyword);
     const colon = next();
     if (!is(colon, "punct", ":")) {
-      fail(
-        `Il manque : après « from ${source.ident}${source.side ? `.${source.side}` : ""} ».`,
-        colon ?? undefined,
-      );
+      // Forgotten at the end of the line: point at the position, not at the next line.
+      const sameLine = colon !== undefined && colon.start.line === source.span.to.line;
+      fail("from.missing_colon", sameLine ? colon : source.span, {
+        ref: `${source.ident}${source.side ? `.${source.side}` : ""}`,
+      });
     }
     const block: FromBlock = {
       type: "from",
@@ -327,46 +312,38 @@ export function parseAst(text: string): PlanAst {
         continue;
       }
       if (token.type === "property") {
-        fail(`${token.value}: se place sous une flèche -> .`, token);
+        fail("from.option_without_arrow", token, { property: token.value });
       }
-      fail(`« ${shown(token)} » inattendu : une flèche commence par ->.`, token);
+      fail("from.unexpected", token, { token: shown(token) });
     }
   }
 
   function parseArrow(): Arrow {
     const arrowToken = next() as Token;
-    const target = parseRef("Il manque la technique après -> : -> knee_slice", arrowToken);
+    const target = parseRef("arrow.missing_target", arrowToken);
     const arrow: Arrow = { target, tags: [], span: { from: arrowToken.start, to: target.span.to } };
     for (;;) {
       const token = peek();
       if (!token || token.type !== "property") return arrow;
       if (token.value === "name" || token.value === "detail") {
-        fail(
-          `${token.value}: se place dans la déclaration de la technique, pas sur une flèche.`,
-          token,
-        );
+        fail("arrow.declaration_property", token, { property: token.value });
       }
       i++;
       if (token.value === "when") {
-        if (arrow.when)
-          fail(`Cette flèche a déjà une condition (ligne ${arrow.when.span.from.line}).`, token);
+        if (arrow.when) fail("arrow.duplicate_when", token, { line: arrow.when.span.from.line });
         const value = next();
-        if (!is(value, "string")) {
-          fail(
-            'Après when:, la condition s\'écrit entre guillemets : when: "il tend le bras".',
-            blame(token, value),
-          );
-        }
-        arrow.when = { value: value?.value ?? "", span: span(value as Token) };
-        arrow.span = { from: arrow.span.from, to: (value as Token).end };
+        if (!is(value, "string")) fail("arrow.when_unquoted", blame(token, value));
+        const when = value as Token;
+        arrow.when = { value: when.value, span: span(when) };
+        arrow.span = { from: arrow.span.from, to: when.end };
       } else if (token.value === "leads_to") {
-        if (arrow.leadsTo) fail("Cette flèche a déjà un leads_to:.", token);
+        if (arrow.leadsTo) fail("arrow.duplicate_leads_to", token);
         if (is(peek(), "reserved", "FINISH")) {
           const finish = next() as Token;
           arrow.leadsTo = { finish: true, span: span(finish) };
           arrow.span = { from: arrow.span.from, to: finish.end };
         } else {
-          const ref = parseRef("Après leads_to:, une position ou FINISH.", token);
+          const ref = parseRef("arrow.missing_leads_to", token);
           arrow.leadsTo = { ref };
           arrow.span = { from: arrow.span.from, to: ref.span.to };
         }

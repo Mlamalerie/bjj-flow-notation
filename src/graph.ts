@@ -1,3 +1,4 @@
+import { formatMessage, type DiagnosticCode, type Locale, type Params } from "./messages.ts";
 import {
   NotationError,
   parseAst,
@@ -12,6 +13,7 @@ import type {
   Mastery,
   NotationEdge,
   NotationNode,
+  ParseOptions,
   ParseResult,
   Side,
   Span,
@@ -19,37 +21,47 @@ import type {
 } from "./types.ts";
 
 const MASTERY_TAGS: Record<string, Mastery> = { GAP: "gap", WIP: "wip", SOLID: "solid" };
-const MASTERY_WORD: Record<Mastery, string> = {
-  discover: "à découvrir",
-  gap: "GAP",
-  wip: "WIP",
-  solid: "SOLID",
-};
-const SIDE_WORD: Record<Side, string> = { top: "dessus (.top)", bottom: "dessous (.bottom)" };
 
-/** « choke_du_club » → « Choke du club » : le nom d'une technique hors vocabulaire. */
+/** `choke_du_club` → "Choke du club": the name of a technique outside the vocabulary. */
 export function humanize(ident: string): string {
   const words = ident.replace(/_+/g, " ").trim();
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
+const diagnostic = (
+  severity: Diagnostic["severity"],
+  code: DiagnosticCode,
+  params: Params,
+  span: Span,
+  locale: Locale,
+): Diagnostic => ({ severity, code, params, message: formatMessage(code, params, locale), span });
+
 /**
- * Lit un texte .bjj et en tire le graphe. Ne lève jamais d'exception : une faute donne
- * `{ ok: false, error }` avec ligne, colonne et une phrase en français.
+ * Reads a .bjj text into a graph. Never throws: a mistake gives `{ ok: false, error }` with a code, a
+ * line, a column and a message in the requested language (English by default).
  */
-export function parseNotation(text: string, vocabulary: Vocabulary): ParseResult {
+export function parseNotation(
+  text: string,
+  vocabulary: Vocabulary,
+  { locale = "en" }: ParseOptions = {},
+): ParseResult {
   try {
-    return build(parseAst(text), vocabulary);
+    return build(parseAst(text), vocabulary, locale);
   } catch (error) {
-    if (error instanceof NotationError) return { ok: false, error: error.diagnostic };
+    if (error instanceof NotationError) {
+      return {
+        ok: false,
+        error: diagnostic("error", error.code, error.params, error.span, locale),
+      };
+    }
     throw error;
   }
 }
 
-function build(ast: PlanAst, vocabulary: Vocabulary): ParseResult {
+function build(ast: PlanAst, vocabulary: Vocabulary, locale: Locale): ParseResult {
   const warnings: Diagnostic[] = [];
-  const warn = (message: string, span: Span) =>
-    warnings.push({ severity: "warning", message, span });
+  const warn = (code: DiagnosticCode, params: Params, span: Span) =>
+    warnings.push(diagnostic("warning", code, params, span, locale));
   const nodes = new Map<string, NotationNode>();
   const lines: Record<string, LineRange[]> = {};
   const mentions: Record<string, LineRange[]> = {};
@@ -64,14 +76,15 @@ function build(ast: PlanAst, vocabulary: Vocabulary): ParseResult {
     if (!firstLine.has(key)) firstLine.set(key, line);
   };
 
-  /* Les alias d'abord : on peut s'en servir avant leur déclaration. */
+  /* Aliases first: they can be used before their declaration. */
   const aliases = new Map<string, { declaration: Declaration; side: Side | undefined }>();
   for (const item of ast.items) {
     if (item.type !== "declaration") continue;
     const previous = aliases.get(item.alias);
     if (previous) {
       throw new NotationError(
-        `« ${item.alias} » est déjà déclaré ligne ${previous.declaration.span.from.line}.`,
+        "alias.duplicate",
+        { alias: item.alias, line: previous.declaration.span.from.line },
         item.aliasSpan,
       );
     }
@@ -83,7 +96,7 @@ function build(ast: PlanAst, vocabulary: Vocabulary): ParseResult {
     const existing = nodes.get(alias);
     if (existing) return existing;
     const found = aliases.get(alias);
-    if (!found) throw new Error(`alias inconnu ${alias}`);
+    if (!found) throw new Error(`unknown alias ${alias}`);
     const { declaration, side } = found;
     const refIdent = declaration.ref?.ident ?? alias;
     const entry = vocabulary.get(refIdent);
@@ -106,7 +119,8 @@ function build(ast: PlanAst, vocabulary: Vocabulary): ParseResult {
     if (alias) {
       if (ref.side && ref.side !== alias.side) {
         throw new NotationError(
-          `« ${ref.ident} » est déclaré ${alias.side ? SIDE_WORD[alias.side] : "sans côté"} ligne ${alias.declaration.span.from.line} : écris ${ref.ident} tout court.`,
+          "alias.side_conflict",
+          { alias: ref.ident, side: alias.side ?? "none", line: alias.declaration.span.from.line },
           ref.span,
         );
       }
@@ -120,10 +134,7 @@ function build(ast: PlanAst, vocabulary: Vocabulary): ParseResult {
     if (!nodes.has(key)) {
       if (!entry && !unknown.has(ref.ident)) {
         unknown.add(ref.ident);
-        warn(
-          `« ${ref.ident} » n'est pas dans le vocabulaire : ce sera une position nommée « ${humanize(ref.ident)} ». Déclare-la pour choisir sa catégorie.`,
-          ref.span,
-        );
+        warn("warn.unknown_ident", { ident: ref.ident, name: humanize(ref.ident) }, ref.span);
       }
       nodes.set(key, {
         key,
@@ -146,18 +157,16 @@ function build(ast: PlanAst, vocabulary: Vocabulary): ParseResult {
       else if (mastery) {
         if (node.mastery !== "discover" && node.mastery !== mastery) {
           warn(
-            `« ${node.name} » a deux niveaux de maîtrise : ${MASTERY_WORD[mastery]} l'emporte sur ${MASTERY_WORD[node.mastery]}.`,
+            "warn.mastery_conflict",
+            { name: node.name, kept: mastery, dropped: node.mastery },
             tag.span,
           );
         }
         node.mastery = mastery;
       } else if (tag.value === "COUNTER") {
-        throw new NotationError("COUNTER s'écrit sur une flèche -> : tag: COUNTER.", tag.span);
+        throw new NotationError("tag.counter_on_node", {}, tag.span);
       } else if (onArrow) {
-        warn(
-          `Étiquette « ${tag.value} » ignorée : sur une flèche, seules a_game, GAP, WIP, SOLID et COUNTER comptent.`,
-          tag.span,
-        );
+        warn("warn.tag_ignored_on_arrow", { tag: tag.value }, tag.span);
       } else if (!node.tags.includes(tag.value)) {
         node.tags.push(tag.value);
       }
@@ -166,13 +175,13 @@ function build(ast: PlanAst, vocabulary: Vocabulary): ParseResult {
 
   const addEdge = (edge: NotationEdge, explicit: boolean, span: Span) => {
     if (edge.source === edge.target) {
-      warn("Une technique ne mène pas à elle-même : flèche ignorée.", span);
+      warn("warn.self_loop", {}, span);
       return;
     }
     const id = `${edge.source}→${edge.target}`;
     const existing = edges.get(id);
     if (existing) {
-      if (existing.explicit && explicit) warn("Flèche en double : seule la première compte.", span);
+      if (existing.explicit && explicit) warn("warn.duplicate_arrow", {}, span);
       else if (explicit) edges.set(id, { ...edge, explicit });
       return;
     }

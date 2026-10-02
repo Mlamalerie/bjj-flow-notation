@@ -31,7 +31,7 @@ const RESERVED_WORDS = new Set([...KEYWORDS, ...PROPERTIES, "top", "bottom"]);
 const MASTERY_TAG: Partial<Record<Mastery, string>> = { gap: "GAP", wip: "WIP", solid: "SOLID" };
 const IDENT = /^[a-z][a-z0-9_]*$/;
 
-/** « Kesa gatame » → `kesa_gatame` : un identifiant valide, sans accents. */
+/** "Kesa gatame" → `kesa_gatame`: a valid identifier, without accents. */
 export function slugIdent(name: string): string {
   let s = name
     .replace(/œ/g, "oe")
@@ -54,8 +54,8 @@ const quote = (text: string) =>
     .replace(/[\r\n]+/g, " ")}"`;
 
 /**
- * Écrit un plan en .bjj. Renvoie aussi la clé de chaque nœud (id → clé du texte), pour relier le
- * texte relu aux mêmes nœuds. Relire ce texte redonne le même graphe, hors coordonnées.
+ * Writes a plan as .bjj text. Also returns the key of each node (id → key in the text), to map the
+ * text back to the same nodes. Reading this text gives the same graph back, coordinates aside.
  */
 export function serializeNotation(
   input: SerializeInput,
@@ -73,14 +73,14 @@ export function serializeNotation(
   }
   const isGap = (node: SerializeNode) => node.category !== "submission" && !outgoing.has(node.id);
 
-  /* Identifiant de chaque nœud : celui du vocabulaire, sinon tiré de son nom. */
+  /* Identifier of each node: the vocabulary's, or else derived from its name. */
   const idents = new Map<string, string>();
   const entries = new Map<string, ReturnType<Vocabulary["get"]>>();
   for (const node of input.nodes) {
     const known = vocabulary.idOf(node.name, node.category);
     let ident = known ?? slugIdent(node.name);
-    // Une technique perso ne prend pas l'identifiant d'une entrée du vocabulaire.
-    if (!known && vocabulary.get(ident)) ident = `${ident}_perso`;
+    // A custom technique never takes the identifier of a vocabulary entry.
+    if (!known && vocabulary.get(ident)) ident = `${ident}_custom`;
     idents.set(node.id, ident);
     entries.set(node.id, known ? vocabulary.get(known) : undefined);
   }
@@ -94,7 +94,7 @@ export function serializeNotation(
     key: string;
   }
 
-  /* Qui a besoin d'une déclaration ? Ce qui diffère du vocabulaire, ou n'apparaîtrait nulle part. */
+  /* Who needs a declaration? What differs from the vocabulary, or would appear nowhere. */
   const info = input.nodes.map((node) => {
     const ident = idents.get(node.id) ?? slugIdent(node.name);
     const entry = entries.get(node.id);
@@ -110,15 +110,15 @@ export function serializeNotation(
       (!linked.has(node.id) && !isGap(node));
     return { node, ident, entry, plainKey: side ? `${ident}.${side}` : ident, needs };
   });
-  // Deux nœuds identiques sans déclaration : le second en prend une.
+  // Two identical undeclared nodes: the second one gets a declaration.
   const plainKeys = new Set<string>();
   for (const item of info) {
     if (item.needs) continue;
     if (plainKeys.has(item.plainKey)) item.needs = true;
     else plainKeys.add(item.plainKey);
   }
-  // Un alias masque l'identifiant : si un nœud du même identifiant reste sans déclaration,
-  // les nœuds déclarés prennent un alias numéroté.
+  // An alias hides the identifier: if a node with the same identifier stays undeclared, the
+  // declared ones take a numbered alias.
   const undeclaredIdents = new Set(info.filter((i) => !i.needs).map((i) => i.ident));
   const used = new Set(plainKeys);
   const uniqueAlias = (ident: string) => {
@@ -149,7 +149,7 @@ export function serializeNotation(
 
   const lines: string[] = [`plan ${quote(input.name)} {`];
 
-  /* Déclarations */
+  /* Declarations */
   const declarations: string[] = [];
   for (const { node, ident, alias } of placed.values()) {
     if (!alias) continue;
@@ -172,7 +172,7 @@ export function serializeNotation(
   }
   if (declarations.length) lines.push("", ...declarations);
 
-  /* Un bloc `from` par nœud qui a des sorties, et pour chaque trou (bloc vide). */
+  /* One `from` block per node with a way out, and one (empty) per gap. */
   for (const { node, ref } of placed.values()) {
     const exits = outgoing.get(node.id) ?? [];
     if (!exits.length && !isGap(node)) continue;
