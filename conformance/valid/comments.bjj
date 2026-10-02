@@ -1,0 +1,9 @@
+# A plan with comments everywhere
+plan "Comments" { # opening
+  # a line on its own
+  from closed_guard:   # after a header
+    -> scissor_sweep   # after an arrow
+    # between arrows
+    -> triangle        when: "one arm in"  # after an option
+}
+# after the end

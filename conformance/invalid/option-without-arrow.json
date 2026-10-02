@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "from.option_without_arrow",
+    "line": 3,
+    "col": 5
+  }
+}

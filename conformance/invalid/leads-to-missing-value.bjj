@@ -1,0 +1,5 @@
+plan "A" {
+  from mount:
+    -> armbar   leads_to:
+    -> kimura
+}

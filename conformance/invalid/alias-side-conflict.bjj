@@ -1,0 +1,4 @@
+plan "A" {
+  position mount
+  from mount.bottom:
+}

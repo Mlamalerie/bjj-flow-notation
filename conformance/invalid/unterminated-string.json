@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "lex.unterminated_string",
+    "line": 3,
+    "col": 22
+  }
+}

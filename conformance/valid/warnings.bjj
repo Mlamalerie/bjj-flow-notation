@@ -1,0 +1,7 @@
+plan "Warnings" {
+  from mount:
+    -> club_choke
+    -> club_choke
+    -> americana   tag: favourite
+    -> mount
+}

@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "decl.unknown_property",
+    "line": 2,
+    "col": 16
+  }
+}

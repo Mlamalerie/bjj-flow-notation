@@ -1,0 +1,49 @@
+{
+  "graph": {
+    "name": "Comments",
+    "nodes": [
+      {
+        "key": "closed_guard.bottom",
+        "name": "Closed guard",
+        "category": "position",
+        "side": "bottom",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "scissor_sweep",
+        "name": "Scissor sweep",
+        "category": "pass",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "triangle",
+        "name": "Triangle choke",
+        "category": "submission",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "closed_guard.bottom",
+        "target": "scissor_sweep",
+        "kind": "success"
+      },
+      {
+        "source": "closed_guard.bottom",
+        "target": "triangle",
+        "kind": "reaction",
+        "when": "one arm in"
+      }
+    ]
+  },
+  "warnings": [],
+  "gaps": [
+    "scissor_sweep"
+  ]
+}

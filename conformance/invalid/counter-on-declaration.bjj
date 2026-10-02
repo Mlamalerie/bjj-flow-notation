@@ -1,0 +1,3 @@
+plan "A" {
+  position mount { tag: COUNTER }
+}

@@ -1,0 +1,8 @@
+plan "Chains" {
+  from top_position:
+    -> knee_slice   leads_to: side_control   tag: a_game
+    -> torreando    when: "open guard"
+                    leads_to: side_control
+  from side_control:
+    -> americana    leads_to: FINISH
+}

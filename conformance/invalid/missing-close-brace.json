@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "plan.missing_close",
+    "line": 3,
+    "col": 14
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "graph": {
+    "name": "Sides",
+    "nodes": [
+      {
+        "key": "mount_2",
+        "name": "Mount",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": [],
+        "detail": "second time"
+      },
+      {
+        "key": "side_control.top",
+        "name": "Side control",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "mount.top",
+        "name": "Mount",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "mount.bottom",
+        "name": "Mount",
+        "category": "position",
+        "side": "bottom",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "elbow_knee",
+        "name": "Elbow-knee escape",
+        "category": "defense",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "knee_slice",
+        "name": "Knee slice",
+        "category": "pass",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "side_control.top",
+        "target": "mount.top",
+        "kind": "success"
+      },
+      {
+        "source": "side_control.top",
+        "target": "mount_2",
+        "kind": "reaction",
+        "when": "he frames"
+      },
+      {
+        "source": "mount.bottom",
+        "target": "elbow_knee",
+        "kind": "success"
+      },
+      {
+        "source": "knee_slice",
+        "target": "side_control.top",
+        "kind": "success"
+      }
+    ]
+  },
+  "warnings": [],
+  "gaps": [
+    "mount_2",
+    "mount.top",
+    "elbow_knee"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "alias.side_conflict",
+    "line": 3,
+    "col": 8
+  }
+}

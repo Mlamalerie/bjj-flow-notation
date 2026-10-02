@@ -1,0 +1,62 @@
+{
+  "graph": {
+    "name": "Declarations",
+    "nodes": [
+      {
+        "key": "body_lock",
+        "name": "Body lock",
+        "category": "takedown",
+        "mastery": "gap",
+        "aGame": true,
+        "tags": [],
+        "detail": "from standing"
+      },
+      {
+        "key": "pulls_guard",
+        "name": "He pulls guard",
+        "category": "position",
+        "side": "bottom",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "choke_of_the_club",
+        "name": "Club choke",
+        "category": "submission",
+        "mastery": "wip",
+        "aGame": false,
+        "tags": [
+          "gi"
+        ]
+      },
+      {
+        "key": "top_position.top",
+        "name": "Top position",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": true,
+        "tags": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "body_lock",
+        "target": "top_position.top",
+        "kind": "success"
+      },
+      {
+        "source": "body_lock",
+        "target": "pulls_guard",
+        "kind": "reaction",
+        "when": "I lose the clinch"
+      }
+    ]
+  },
+  "warnings": [],
+  "gaps": [
+    "pulls_guard",
+    "top_position.top"
+  ]
+}

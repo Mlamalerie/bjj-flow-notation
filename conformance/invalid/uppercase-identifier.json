@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "ident.uppercase",
+    "line": 2,
+    "col": 8
+  }
+}

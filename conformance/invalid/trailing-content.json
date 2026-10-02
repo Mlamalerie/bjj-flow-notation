@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "plan.trailing",
+    "line": 3,
+    "col": 1
+  }
+}

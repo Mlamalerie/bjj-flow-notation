@@ -1,0 +1,80 @@
+{
+  "graph": {
+    "name": "Chains",
+    "nodes": [
+      {
+        "key": "top_position.top",
+        "name": "Top position",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "knee_slice",
+        "name": "Knee slice",
+        "category": "pass",
+        "mastery": "discover",
+        "aGame": true,
+        "tags": []
+      },
+      {
+        "key": "side_control.top",
+        "name": "Side control",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "torreando",
+        "name": "Torreando",
+        "category": "pass",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "americana",
+        "name": "Americana",
+        "category": "submission",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "top_position.top",
+        "target": "knee_slice",
+        "kind": "success"
+      },
+      {
+        "source": "knee_slice",
+        "target": "side_control.top",
+        "kind": "success"
+      },
+      {
+        "source": "top_position.top",
+        "target": "torreando",
+        "kind": "reaction",
+        "when": "open guard"
+      },
+      {
+        "source": "torreando",
+        "target": "side_control.top",
+        "kind": "success"
+      },
+      {
+        "source": "side_control.top",
+        "target": "americana",
+        "kind": "success",
+        "leadsToFinish": true
+      }
+    ]
+  },
+  "warnings": [],
+  "gaps": []
+}

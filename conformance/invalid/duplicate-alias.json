@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "alias.duplicate",
+    "line": 3,
+    "col": 12
+  }
+}

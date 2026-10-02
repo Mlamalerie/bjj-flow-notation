@@ -1,0 +1,16 @@
+plan "A-game KL" {
+
+  from mount:
+    -> americana     leads_to: FINISH
+    -> armbar
+       when: "he extends his arm"
+       leads_to: FINISH
+    -> back
+       when: "he turns to his side"
+    -> his_guard.top  tag: COUNTER
+       when: "he bridges"
+
+  from dogfight:
+    # nothing planned here yet
+    tag: GAP
+}

@@ -1,0 +1,3 @@
+plan "A" {
+  position x { colour: "red" }
+}

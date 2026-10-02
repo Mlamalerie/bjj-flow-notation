@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "arrow.missing_target",
+    "line": 3,
+    "col": 5
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "graph": {
+    "name": "Warnings",
+    "nodes": [
+      {
+        "key": "mount.top",
+        "name": "Mount",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "club_choke",
+        "name": "Club choke",
+        "category": "position",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "americana",
+        "name": "Americana",
+        "category": "submission",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "mount.top",
+        "target": "club_choke",
+        "kind": "success"
+      },
+      {
+        "source": "mount.top",
+        "target": "americana",
+        "kind": "success"
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "code": "warn.unknown_ident",
+      "line": 3,
+      "col": 8
+    },
+    {
+      "code": "warn.duplicate_arrow",
+      "line": 4,
+      "col": 5
+    },
+    {
+      "code": "warn.tag_ignored_on_arrow",
+      "line": 5,
+      "col": 25
+    },
+    {
+      "code": "warn.self_loop",
+      "line": 6,
+      "col": 5
+    }
+  ],
+  "gaps": [
+    "club_choke"
+  ]
+}

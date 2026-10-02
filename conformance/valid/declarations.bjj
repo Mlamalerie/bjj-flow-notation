@@ -1,0 +1,10 @@
+plan "Declarations" {
+
+  takedown body_lock { tag: a_game, GAP  detail: "from standing" }
+  position pulls_guard = open_guard.bottom { name: "He pulls guard" }
+  submission choke_of_the_club { name: "Club choke"  tag: WIP, gi }
+
+  from body_lock:
+    -> top_position  tag: a_game
+    -> pulls_guard   when: "I lose the clinch"
+}

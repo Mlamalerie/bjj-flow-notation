@@ -1,0 +1,91 @@
+{
+  "graph": {
+    "name": "A-game KL",
+    "nodes": [
+      {
+        "key": "mount.top",
+        "name": "Mount",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "americana",
+        "name": "Americana",
+        "category": "submission",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "armbar",
+        "name": "Armbar",
+        "category": "submission",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "back.top",
+        "name": "Back control",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "his_guard.top",
+        "name": "In their guard",
+        "category": "position",
+        "side": "top",
+        "mastery": "discover",
+        "aGame": false,
+        "tags": []
+      },
+      {
+        "key": "dogfight",
+        "name": "Dogfight",
+        "category": "position",
+        "mastery": "gap",
+        "aGame": false,
+        "tags": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "mount.top",
+        "target": "americana",
+        "kind": "success",
+        "leadsToFinish": true
+      },
+      {
+        "source": "mount.top",
+        "target": "armbar",
+        "kind": "reaction",
+        "when": "he extends his arm",
+        "leadsToFinish": true
+      },
+      {
+        "source": "mount.top",
+        "target": "back.top",
+        "kind": "reaction",
+        "when": "he turns to his side"
+      },
+      {
+        "source": "mount.top",
+        "target": "his_guard.top",
+        "kind": "counter",
+        "when": "he bridges"
+      }
+    ]
+  },
+  "warnings": [],
+  "gaps": [
+    "back.top",
+    "his_guard.top",
+    "dogfight"
+  ]
+}

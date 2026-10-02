@@ -1,0 +1,4 @@
+plan "A" {
+  from mount:
+    ->
+}

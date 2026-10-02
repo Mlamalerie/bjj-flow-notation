@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "ident.reserved_word",
+    "line": 2,
+    "col": 8
+  }
+}

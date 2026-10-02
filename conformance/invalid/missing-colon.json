@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "from.missing_colon",
+    "line": 2,
+    "col": 8
+  }
+}

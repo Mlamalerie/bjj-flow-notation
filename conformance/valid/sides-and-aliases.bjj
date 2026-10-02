@@ -1,0 +1,12 @@
+plan "Sides" {
+
+  position mount_2 = mount.top { detail: "second time" }
+
+  from side_control.top:
+    -> mount
+    -> mount_2      when: "he frames"
+  from mount.bottom:
+    -> elbow_knee
+  from knee_slice:
+    -> side_control
+}

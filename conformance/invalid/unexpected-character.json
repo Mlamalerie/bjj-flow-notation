@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "lex.unexpected_char",
+    "line": 2,
+    "col": 15
+  }
+}
