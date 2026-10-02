@@ -1,0 +1,3 @@
+[install]
+# Garde-fou : pas de version publiée depuis moins de 24 h.
+minimumReleaseAge = 86400

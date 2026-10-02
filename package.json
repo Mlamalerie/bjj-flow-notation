@@ -1,0 +1,20 @@
+{
+  "name": "bjj-notation",
+  "version": "0.1.0",
+  "description": "La notation .bjj : écrire le jiu-jitsu brésilien en texte. Parseur et sérialiseur sans dépendance.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./vocabulary/base.json": "./vocabulary/base.json"
+  },
+  "files": ["src", "vocabulary", "SPEC.md", "LICENSE", "LICENSE-SPEC.md"],
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.3"
+  }
+}

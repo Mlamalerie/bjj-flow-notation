@@ -1,0 +1,486 @@
+[
+  {
+    "id": "standing",
+    "name": "Debout",
+    "category": "position"
+  },
+  {
+    "id": "clinch",
+    "name": "Clinch",
+    "category": "position"
+  },
+  {
+    "id": "closed_guard",
+    "name": "Garde fermée",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "open_guard",
+    "name": "Garde ouverte",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "half_guard",
+    "name": "Demi-garde",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "deep_half",
+    "name": "Deep half",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "knee_shield",
+    "name": "Knee shield",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "butterfly",
+    "name": "Garde papillon",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "de_la_riva",
+    "name": "De La Riva",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "reverse_de_la_riva",
+    "name": "Reverse De La Riva",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "x_guard",
+    "name": "X-guard",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "single_leg_x",
+    "name": "Single leg X",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "spider",
+    "name": "Garde araignée",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "lasso",
+    "name": "Lasso",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "fifty_fifty",
+    "name": "50/50",
+    "category": "position"
+  },
+  {
+    "id": "top_position",
+    "name": "Top position",
+    "category": "position",
+    "side": "top"
+  },
+  {
+    "id": "in_guard",
+    "name": "Dans sa garde",
+    "category": "position",
+    "side": "top",
+    "synonyms": [
+      "his_guard"
+    ]
+  },
+  {
+    "id": "side_control",
+    "name": "Side control",
+    "category": "position",
+    "side": "top"
+  },
+  {
+    "id": "mount",
+    "name": "Mount",
+    "category": "position",
+    "side": "top"
+  },
+  {
+    "id": "knee_on_belly",
+    "name": "Knee on belly",
+    "category": "position",
+    "side": "top"
+  },
+  {
+    "id": "north_south",
+    "name": "North-south",
+    "category": "position",
+    "side": "top"
+  },
+  {
+    "id": "back",
+    "name": "Prise de dos",
+    "category": "position",
+    "side": "top",
+    "synonyms": [
+      "back_control"
+    ]
+  },
+  {
+    "id": "turtle",
+    "name": "Tortue",
+    "category": "position"
+  },
+  {
+    "id": "dogfight",
+    "name": "Dogfight",
+    "category": "position"
+  },
+  {
+    "id": "front_headlock",
+    "name": "Front headlock",
+    "category": "position",
+    "side": "top"
+  },
+  {
+    "id": "crucifix",
+    "name": "Crucifix",
+    "category": "position",
+    "side": "top"
+  },
+  {
+    "id": "bottom_side",
+    "name": "Sous le side control",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "bottom_mount",
+    "name": "Sous la montée",
+    "category": "position",
+    "side": "bottom"
+  },
+  {
+    "id": "knee_slice",
+    "name": "Knee slice",
+    "category": "pass"
+  },
+  {
+    "id": "torreando",
+    "name": "Torreando",
+    "category": "pass"
+  },
+  {
+    "id": "leg_drag",
+    "name": "Leg drag",
+    "category": "pass"
+  },
+  {
+    "id": "over_under",
+    "name": "Over-under",
+    "category": "pass"
+  },
+  {
+    "id": "double_under",
+    "name": "Double under",
+    "category": "pass"
+  },
+  {
+    "id": "stack_pass",
+    "name": "Stack pass",
+    "category": "pass"
+  },
+  {
+    "id": "long_step",
+    "name": "Long step",
+    "category": "pass"
+  },
+  {
+    "id": "x_pass",
+    "name": "X-pass",
+    "category": "pass"
+  },
+  {
+    "id": "body_lock_pass",
+    "name": "Body lock pass",
+    "category": "pass"
+  },
+  {
+    "id": "smash_pass",
+    "name": "Smash pass",
+    "category": "pass"
+  },
+  {
+    "id": "leg_weave",
+    "name": "Leg weave",
+    "category": "pass"
+  },
+  {
+    "id": "backstep",
+    "name": "Backstep",
+    "category": "pass"
+  },
+  {
+    "id": "scissor_sweep",
+    "name": "Scissor sweep",
+    "category": "pass"
+  },
+  {
+    "id": "hip_bump",
+    "name": "Hip bump",
+    "category": "pass"
+  },
+  {
+    "id": "flower_sweep",
+    "name": "Flower sweep",
+    "category": "pass"
+  },
+  {
+    "id": "butterfly_sweep",
+    "name": "Butterfly sweep",
+    "category": "pass"
+  },
+  {
+    "id": "old_school",
+    "name": "Old school sweep",
+    "category": "pass"
+  },
+  {
+    "id": "waiter_sweep",
+    "name": "Waiter sweep",
+    "category": "pass"
+  },
+  {
+    "id": "tripod_sweep",
+    "name": "Tripod sweep",
+    "category": "pass"
+  },
+  {
+    "id": "berimbolo",
+    "name": "Berimbolo",
+    "category": "pass"
+  },
+  {
+    "id": "back_take",
+    "name": "Back take",
+    "category": "pass"
+  },
+  {
+    "id": "americana",
+    "name": "Americana",
+    "category": "submission"
+  },
+  {
+    "id": "kimura",
+    "name": "Kimura",
+    "category": "submission"
+  },
+  {
+    "id": "armbar",
+    "name": "Armbar",
+    "category": "submission"
+  },
+  {
+    "id": "triangle",
+    "name": "Triangle",
+    "category": "submission"
+  },
+  {
+    "id": "arm_triangle",
+    "name": "Arm triangle",
+    "category": "submission"
+  },
+  {
+    "id": "baseball_choke",
+    "name": "Baseball choke",
+    "category": "submission"
+  },
+  {
+    "id": "cross_collar",
+    "name": "Cross collar",
+    "category": "submission"
+  },
+  {
+    "id": "rear_naked_choke",
+    "name": "Rear naked choke",
+    "category": "submission"
+  },
+  {
+    "id": "bow_and_arrow",
+    "name": "Bow and arrow",
+    "category": "submission"
+  },
+  {
+    "id": "guillotine",
+    "name": "Guillotine",
+    "category": "submission"
+  },
+  {
+    "id": "darce",
+    "name": "Darce",
+    "category": "submission"
+  },
+  {
+    "id": "anaconda",
+    "name": "Anaconda",
+    "category": "submission"
+  },
+  {
+    "id": "ezekiel",
+    "name": "Ezekiel",
+    "category": "submission"
+  },
+  {
+    "id": "omoplata",
+    "name": "Omoplata",
+    "category": "submission"
+  },
+  {
+    "id": "ankle_lock",
+    "name": "Straight ankle lock",
+    "category": "submission"
+  },
+  {
+    "id": "heel_hook",
+    "name": "Heel hook",
+    "category": "submission"
+  },
+  {
+    "id": "kneebar",
+    "name": "Kneebar",
+    "category": "submission"
+  },
+  {
+    "id": "loop_choke",
+    "name": "Loop choke",
+    "category": "submission"
+  },
+  {
+    "id": "clock_choke",
+    "name": "Clock choke",
+    "category": "submission"
+  },
+  {
+    "id": "north_south_choke",
+    "name": "North-south choke",
+    "category": "submission"
+  },
+  {
+    "id": "paper_cutter",
+    "name": "Paper cutter",
+    "category": "submission"
+  },
+  {
+    "id": "mount_escape",
+    "name": "Mount escape",
+    "category": "defense"
+  },
+  {
+    "id": "elbow_knee",
+    "name": "Elbow-knee escape",
+    "category": "defense"
+  },
+  {
+    "id": "side_escape",
+    "name": "Side control escape",
+    "category": "defense"
+  },
+  {
+    "id": "guard_retention",
+    "name": "Guard retention",
+    "category": "defense"
+  },
+  {
+    "id": "back_escape",
+    "name": "Back escape",
+    "category": "defense"
+  },
+  {
+    "id": "shrimp",
+    "name": "Shrimp",
+    "category": "defense"
+  },
+  {
+    "id": "technical_standup",
+    "name": "Technical standup",
+    "category": "defense"
+  },
+  {
+    "id": "granby",
+    "name": "Granby roll",
+    "category": "defense"
+  },
+  {
+    "id": "sprawl",
+    "name": "Sprawl",
+    "category": "defense"
+  },
+  {
+    "id": "whizzer",
+    "name": "Whizzer",
+    "category": "defense"
+  },
+  {
+    "id": "frames",
+    "name": "Frames",
+    "category": "defense"
+  },
+  {
+    "id": "body_lock",
+    "name": "Body lock",
+    "category": "takedown"
+  },
+  {
+    "id": "single_leg",
+    "name": "Single leg",
+    "category": "takedown"
+  },
+  {
+    "id": "double_leg",
+    "name": "Double leg",
+    "category": "takedown"
+  },
+  {
+    "id": "ankle_pick",
+    "name": "Ankle pick",
+    "category": "takedown"
+  },
+  {
+    "id": "osoto_gari",
+    "name": "Osoto gari",
+    "category": "takedown"
+  },
+  {
+    "id": "ouchi_gari",
+    "name": "Ouchi gari",
+    "category": "takedown"
+  },
+  {
+    "id": "seoi_nage",
+    "name": "Seoi nage",
+    "category": "takedown"
+  },
+  {
+    "id": "snap_down",
+    "name": "Snap down",
+    "category": "takedown"
+  },
+  {
+    "id": "arm_drag",
+    "name": "Arm drag",
+    "category": "takedown"
+  },
+  {
+    "id": "guard_pull",
+    "name": "Tirer la garde",
+    "category": "takedown"
+  }
+]
