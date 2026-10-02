@@ -1,0 +1,29 @@
+# Closed guard game for a first competition (white belt).
+plan "Closed guard" {
+
+  position closed_guard { tag: a_game, WIP }
+
+  from closed_guard:
+    -> scissor_sweep   tag: a_game
+    -> hip_bump        when: "he sits up straight"
+    -> triangle        when: "one arm in, one arm out"
+                       leads_to: FINISH
+    -> armbar          when: "he pushes on my chest"
+                       leads_to: FINISH
+    -> half_guard      tag: COUNTER
+                       when: "he opens my guard"
+
+  from scissor_sweep:
+    -> mount
+
+  from hip_bump:
+    -> mount
+
+  from mount:
+    -> americana       leads_to: FINISH
+    -> back            when: "he turns to his side"
+
+  from half_guard:
+    # still to work on
+    tag: GAP
+}

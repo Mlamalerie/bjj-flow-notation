@@ -1,0 +1,24 @@
+# Passer la garde : conditions et commentaires en français.
+plan "Passage debout" {
+
+  position top_position { tag: a_game, SOLID }
+
+  from top_position:
+    -> torreando     when: "il garde les jambes ouvertes"
+    -> knee_slice    when: "il met une demi-garde"
+                     tag: a_game
+    -> leg_drag      when: "il pousse avec ses pieds"
+    -> half_guard.bottom  tag: COUNTER
+                          when: "il récupère sa garde"
+
+  from torreando:
+    -> side_control
+  from knee_slice:
+    -> side_control  tag: a_game
+  from leg_drag:
+    -> back
+  from side_control:
+    -> mount
+    -> kimura        when: "il met son bras au sol"
+                     leads_to: FINISH
+}

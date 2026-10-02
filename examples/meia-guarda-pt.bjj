@@ -1,0 +1,23 @@
+# Jogo de meia-guarda: condições e comentários em português.
+plan "Meia-guarda" {
+
+  position half_guard { tag: a_game, WIP }
+
+  from half_guard:
+    -> dogfight      when: "consigo o underhook"
+                     tag: a_game
+    -> deep_half     when: "ele levanta o quadril"
+    -> kimura        when: "ele apoia a mão no chão"
+                     leads_to: FINISH
+    -> bottom_side   tag: COUNTER
+                     when: "ele amassa o meu quadril"
+
+  from dogfight:
+    -> back_take     tag: a_game
+    -> old_school    when: "ele se defende das costas"
+
+  from back_take:
+    -> back
+  from back:
+    -> rear_naked_choke   leads_to: FINISH
+}
